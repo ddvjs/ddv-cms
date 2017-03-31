@@ -3,9 +3,7 @@
     "name": "huadi"
   },
   "bin": {
-    "ddvcms": "./bin/ddvcms",
-    "ddvcms-build": "nuxt build",
-    "ddvcms-generate": "nuxt generate"
+    "ddvcms": "./bin/ddvcms"
   },
   "scripts": {
     "lint": "eslint --ext .js lib bin/*",

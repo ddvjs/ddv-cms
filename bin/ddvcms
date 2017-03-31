@@ -23,7 +23,7 @@ if ([
   'build',
   'generate'
 ].indexOf(cmd) > -1) {
-  var bin = path.join(__dirname, 'ddvcms-' + cmd)
+  var bin = path.join(__dirname, 'nuxt ' + cmd)
   var proc = spawn(bin, process.argv.slice(2), { stdio: 'inherit', customFds: [0, 1, 2] })
   proc.on('close', (code) => process.exit(code))
   proc.on('error', (err) => {
