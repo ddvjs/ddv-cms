@@ -12,7 +12,7 @@
     "precommit": "npm run lint"
   },
   "bugs": {
-    "url": "https://github.com/ddvjs/ddvcms/issues",
+    "url": "https://github.com/ddvjs/ddv-cms/issues",
     "email": "ddv@chengjiabao.cn"
   },
   "dependencies": {
@@ -43,7 +43,7 @@
   "engines": {
     "node": ">=4.0.0"
   },
-  "homepage": "https://github.com/ddvjs/ddvcms#readme",
+  "homepage": "https://github.com/ddvjs/ddv-cms#readme",
   "jshintConfig": {
     "disable": true
   },
@@ -61,12 +61,12 @@
       "email": "yuchonghua@163.com"
     }
   ],
-  "name": "ddvcms",
+  "name": "ddv-cms",
   "optionalDependencies": {},
   "preferGlobal": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ddvjs/ddvcms.git"
+    "url": "git+https://github.com/ddvjs/ddv-cms.git"
   },
   "version": "0.0.1"
 }
