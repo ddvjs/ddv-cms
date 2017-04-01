@@ -3,7 +3,7 @@
 // 标题
 process.title = 'ddvCmsBin'
 const defaultCommand = 'dev'
-const path = require('path')
+// const path = require('path')
 const spawn = require('cross-spawn').spawn
 const commands = new Set([
   'start',
