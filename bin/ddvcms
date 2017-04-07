@@ -31,9 +31,9 @@ if ([
   })
 } else if (cmd === 'start' || cmd === 'ddvstart') {
   process.env.NODE_ENV = 'production' // development
-  require('../lib/server.js')
+  require('../server')
 } else if (cmd === 'dev' || cmd === 'ddvdev') {
-  require('../lib/server.js')
+  require('../server')
 } else {
   console.error('This parameter is not supported')
   process.exit(1)
