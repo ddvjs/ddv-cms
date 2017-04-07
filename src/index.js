@@ -4,8 +4,9 @@ adminHeader.install = function (Vue) {
   Vue.component(adminHeader.name, adminHeader)
 }
 
-const eps = {
+export {
   adminHeader
 }
-export {...eps}
-export default eps
+export default {
+  adminHeader
+}
