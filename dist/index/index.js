@@ -105,11 +105,42 @@ __WEBPACK_IMPORTED_MODULE_0__packages_adminHeader___default.a.install = function
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 exports.default = {
-  name: 'adminHeader'
-
+	name: 'adminHeader',
+	props: {
+		'fullTodo': {
+			type: Function,
+			required: true,
+			default: function _default() {}
+		},
+		'title': {
+			type: String,
+			default: ''
+		},
+		'typeName': {
+			type: String,
+			default: ''
+		},
+		'user': {
+			type: String,
+			default: '管理员'
+		},
+		'logo': {
+			type: String
+		}
+	},
+	methods: {
+		logout: function logout() {
+			var _this = this;
+			this.$confirm('确认退出吗?', '提示', {
+				type: 'warning'
+			}).then(function () {
+				_this.$router.replace('/admin/login');
+			}).catch(function () {});
+		}
+	}
 };
 
 /***/ }),
@@ -208,7 +239,57 @@ module.exports = function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("\n\t213213\n")])
+  return _c('el-col', {
+    staticClass: "panel-top",
+    attrs: {
+      "span": 24
+    }
+  }, [_c('el-col', {
+    staticClass: "f24",
+    attrs: {
+      "span": 20
+    }
+  }, [_c('div', {
+    staticClass: "navbar-header pull-left pl20"
+  }, [_c('img', {
+    staticClass: "logo round",
+    attrs: {
+      "src": _vm.logo,
+      "alt": ""
+    }
+  }), _c('span', [_vm._v(_vm._s(_vm.title)), _c('i', {
+    staticStyle: {
+      "color": "#20a0ff"
+    }
+  }, [_vm._v(_vm._s(_vm.typeName))])])]), _c('div', {
+    staticClass: "pull-left pl20 pr20 pointer f20 navbar-header-btn",
+    on: {
+      "click": _vm.fullTodo
+    }
+  }, [_c('i', {
+    staticClass: "el-icon-menu"
+  })])]), _c('el-col', {
+    attrs: {
+      "span": 4
+    }
+  }, [_c('div', {
+    staticClass: "clearfix pull-right pointer",
+    on: {
+      "click": _vm.logout
+    }
+  }, [_vm._v("\n      " + _vm._s(_vm.user) + "\n      "), _c('el-tooltip', {
+    staticClass: "item tip-logout pl10",
+    attrs: {
+      "effect": "dark",
+      "content": "退出",
+      "placement": "bottom"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-sign-out",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  })])], 1)])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

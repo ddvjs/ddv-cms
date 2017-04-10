@@ -2,7 +2,7 @@
   <el-col :span="24" class="panel-top">
     <el-col :span="20" class="f24">
       <div class="navbar-header pull-left pl20">
-        <img src="~assets/admin/images/logo.png" alt="" class="logo round">
+        <img :src="logo" alt="" class="logo round">
         <span>{{title}}<i style="color:#20a0ff">{{typeName}}</i></span>
       </div>
       <div class="pull-left pl20 pr20 pointer f20 navbar-header-btn" @click="fullTodo">
@@ -10,7 +10,7 @@
       </div>
     </el-col>
     <el-col :span="4">
-      <div class="clearfix pull-right pointer" @click="logout" v-if="isShowHeader">
+      <div class="clearfix pull-right pointer" @click="logout">
         {{user}}
         <el-tooltip class="item tip-logout pl10" effect="dark" content="退出" placement="bottom">
           <i class="fa fa-sign-out" aria-hidden="true"></i>
@@ -22,17 +22,12 @@
 
 <script>
 export default{
-	name: '',
-  data () {
-    return {
-      isShowHeader:false
-    }
-  },
+	name: 'adminHeader',
   props: {
 		'fullTodo': {
 			type: Function,
 			required: true,
-			default: function default() {}
+			default: function () {}
 		},
 		'title': {
 			type: String,
@@ -45,6 +40,9 @@ export default{
 		'user': {
 			type: String,
 			default: '管理员'
+		},
+		'logo': {
+			type: String
 		}
 	},
   methods: {
@@ -57,12 +55,6 @@ export default{
 				_this.$router.replace('/admin/login')
 			}).catch(() => {})
 		}
-  },
-  mounted () {
-    //临时解决‘el-tooltip’bug
-    if(process.BROWSER_BUILD){
-      this.isShowHeader = true
-    }
   }
 }
 </script>

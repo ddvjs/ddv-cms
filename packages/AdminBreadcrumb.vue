@@ -25,6 +25,7 @@
 import { mapState } from 'vuex'
 
 export default {
+  name: 'adminBreadcrumb',
   computed: mapState({
 		storeData: state => state.admin,
 		breadcrumbTitle () {

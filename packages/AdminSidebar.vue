@@ -41,6 +41,7 @@
 
 <script>
 export default {
+  name: 'adminSidebar',
   //接收来自父组件的数据
   props:{
     'isFullScreen': {
