@@ -30,6 +30,9 @@ build/Release
 node_modules
 jspm_packages
 
+# Dependency directories
+src
+
 # Optional npm cache directory
 .npm
 
