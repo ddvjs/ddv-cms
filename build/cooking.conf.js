@@ -1,4 +1,5 @@
 // 引入 cooking 依赖
+require('./components.create.js')
 var cooking = require('cooking')
 var components = require('../src/components.json')
 var entry = Object.assign({}, {
