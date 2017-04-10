@@ -14,7 +14,7 @@
       <el-breadcrumb-item :to="{ path: '/admin/' }">
         <i class="fa fa-home mr10"></i>首页
       </el-breadcrumb-item>
-      <el-breadcrumb-item v-for="data in storeData.breadcrumb" :to="{path:data.path}">
+      <el-breadcrumb-item v-for="(data,index) in storeData.breadcrumb" :to="{path:data.path}" :key="index">
         <span v-text="data.name"></span>
       </el-breadcrumb-item>
     </el-breadcrumb>
