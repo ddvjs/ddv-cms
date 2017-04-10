@@ -1,0 +1,5 @@
+{
+  "admin-header":"./packages/admin-header",
+  "admin-breadcrumb":"./packages/admin-breadcrumb",
+  "admin-sidebar":"./packages/admin-sidebar"
+}

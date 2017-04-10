@@ -60,7 +60,7 @@
     "ddv"
   ],
   "license": "MIT",
-  "main": "./dist/index",
+  "main": "./lib/index",
   "maintainers": [
     {
       "name": "yuchonghua",
