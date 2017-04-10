@@ -1,3 +1,5 @@
 {
-  "adminHeader":"./packages/adminHeader.vue"
+  "adminHeader":"./packages/adminHeader.vue",
+  "adminBreadcrumb":"./packages/adminBreadcrumb.vue",
+  "adminSidebar":"./packages/adminSidebar.vue",
 }
