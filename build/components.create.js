@@ -138,5 +138,5 @@ function isNumber (obj) {
   return (typeof obj === 'string' || typeof obj === 'number') && (!isArray(obj) && (obj - parseFloat(obj) >= 0))
 }
 function isString (str) {
-  return typeof name === typeof ''
+  return typeof str === typeof ''
 }
