@@ -3,25 +3,39 @@ var path = require('path')
 var fs = require('fs')
 var runTimer = null
 var packagesPath = path.resolve(__dirname, '../packages')
-var stringtype = typeof ''
 var components = path.resolve(__dirname, '../src/components')
-fs.watch(packagesPath, function (e, name) {
-  clearRunTimer()
-  runTimer = setTimeout(function () {
+var isWatch = (process.argv[1] && process.argv[1].indexOf('watch') > -1) || false
+var isComponentsCreate = (process.argv && process.argv.indexOf('componentscreate') > -1) || false
+if (isWatch) {
+  fs.watch(packagesPath, function (e, name) {
     clearRunTimer()
-    componentsCreate()
-  }, 100)
-})
+    runTimer = setTimeout(function () {
+      clearRunTimer()
+      componentsCreate()
+    }, 100)
+  })
+} else if (isComponentsCreate) {
+  console.log('Create the Components list to begin')
+  componentsCreate()
+  .then(function () {
+    console.log('Create the Components list to complete')
+  })
+}
+function reloadComponentsLists () {
+  console.log('配置文件也改变，请重启')
+}
 // 创建
 function componentsCreate () {
-  packagesPathFilter()
+  return packagesPathFilter()
   .then(function (names) {
     return getComponentsText(names)
   })
   .then(function ({listsComponentsJs, listsComponentsJson}) {
     return listsWrite(listsComponentsJs, listsComponentsJson)
   }).then(function () {
-    console.log('配置文件也改变，请重启')
+    if (isWatch) {
+      return reloadComponentsLists()
+    }
   }).catch(function (e) {
     console.error('Read components directory list error')
     console.error(e)
@@ -45,7 +59,7 @@ function packagesPathFilter () {
       names = []
       files.forEach(function (name) {
       // 排除空或者不是字符串
-        if (!(name && typeof name === stringtype && name.substr)) {
+        if (!(name && isString(name) && name.substr)) {
           return
         }
       // 排除一点开头的
@@ -75,7 +89,7 @@ function getComponentsText (names) {
     var listsComponentsJsImport = ''
     var listsComponentsJsonObj = Object.create(null)
     names && names.forEach && names.forEach(function (name) {
-      if (!(name && typeof name === stringtype)) {
+      if (!(name && isString(name))) {
         return
       }
       var nameSource = name
@@ -122,4 +136,7 @@ function isArray () {
 // 判断是否为数字
 function isNumber (obj) {
   return (typeof obj === 'string' || typeof obj === 'number') && (!isArray(obj) && (obj - parseFloat(obj) >= 0))
+}
+function isString (str) {
+  return typeof name === typeof ''
 }

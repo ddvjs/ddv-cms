@@ -6,10 +6,16 @@
     "ddvcms": "./bin/ddvcms"
   },
   "scripts": {
-    "dev": "cooking watch -c ./cooking.conf.js -p",
-    "build": "cooking build -c ./cooking.conf.js",
-    "lint": "eslint --ext .js lib bin/*",
-    "precommit": "npm run lint"
+    "dev": "cooking watch -c ./build/cooking.conf.js",
+    "build:cooking": "cooking build -c ./build/cooking.conf.js",
+    "build:componentscreate": "node ./build/components.create.js componentscreate",
+    "build": "npm run lint && npm run clear && npm run build:componentscreate && npm run build:cooking",
+    "dist": "npm run build",
+    "clear:build": "rm -rf ./lib",
+    "clear": "npm run clear:build",
+    "lint": "eslint packages src server bin build",
+    "precommit": "npm run lint",
+    "prepublish": "npm run lint"
   },
   "bugs": {
     "url": "https://github.com/ddvjs/ddv-cms/issues",
