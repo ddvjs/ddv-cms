@@ -29,6 +29,8 @@
     "ddv-upload-api": "~0.0.6",
     "ddv-util": "~0.0.10",
     "ddv-worker": "~0.0.14",
+    "element-ui": "^1.2",
+    "mint-ui": "^2.1",
     "express": "~4.14.0",
     "es5-shim": "^4.5.9",
     "es6-shim": "^0.35.3",
@@ -88,5 +90,5 @@
     "type": "git",
     "url": "git+https://github.com/ddvjs/ddv-cms.git"
   },
-  "version": "0.0.5"
+  "version": "0.0.6"
 }
