@@ -11,7 +11,7 @@
 <script>
 export default {
   name: 'adminSidebar',
-  props:{
+  props: {
     'isFullScreen': {
       type: Boolean
     }

@@ -27,27 +27,27 @@ import { mapState } from 'vuex'
 export default {
   name: 'adminBreadcrumb',
   computed: mapState({
-		storeData: state => state.admin,
-		breadcrumbTitle () {
-			return this.storeData.breadcrumb.slice(this.storeData.breadcrumb.length-2,this.storeData.breadcrumb.length)
-		},
-		ground () {
-			if (this.storeData.breadcrumb.length === 1) {
-				let obj = this.storeData.breadcrumb[0];
-				return obj.name
-			}else if (this.storeData.breadcrumb.length >= 2) {
-				let obj = this.storeData.breadcrumb[this.storeData.breadcrumb.length-2]
-				return obj.name
-			}
-			return ''
-		},
-		nowPage(){
-			if (this.storeData.breadcrumb.length >= 2) {
-				let obj = this.storeData.breadcrumb[this.storeData.breadcrumb.length-1]
-				return ` - ${obj.name}`
-			}
-			return ''
-		}
+    storeData: state => state.admin,
+    breadcrumbTitle () {
+      return this.storeData.breadcrumb.slice(this.storeData.breadcrumb.length - 2, this.storeData.breadcrumb.length)
+    },
+    ground () {
+      if (this.storeData.breadcrumb.length === 1) {
+        let obj = this.storeData.breadcrumb[0]
+        return obj.name
+      } else if (this.storeData.breadcrumb.length >= 2) {
+        let obj = this.storeData.breadcrumb[this.storeData.breadcrumb.length - 2]
+        return obj.name
+      }
+      return ''
+    },
+    nowPage () {
+      if (this.storeData.breadcrumb.length >= 2) {
+        let obj = this.storeData.breadcrumb[this.storeData.breadcrumb.length - 1]
+        return ` - ${obj.name}`
+      }
+      return ''
+    }
   })
 }
 </script>

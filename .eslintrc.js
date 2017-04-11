@@ -5,14 +5,14 @@ module.exports = {
     sourceType: 'module'
   },
   env: {
-    // browser: true,
+    browser: true,
     node: true
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: 'standard',
   // required to lint *.vue files
   plugins: [
-    // 'html'
+    'html'
   ],
   // add your custom rules here
   rules: {
@@ -25,5 +25,7 @@ module.exports = {
     // do not allow console.logs etc...
     // 'no-console': 2
   },
-  globals: {}
+  globals: {
+    'd': true
+  }
 }

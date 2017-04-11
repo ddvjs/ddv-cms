@@ -46,9 +46,9 @@ export default{
     }
   },
   methods: {
-  //退出登录
+    // 退出登录
     logout () {
-      var _this = this;
+      var _this = this
       this.$confirm('确认退出吗?', '提示', {
         type: 'warning'
       }).then(() => {
