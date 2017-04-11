@@ -3,7 +3,8 @@
     "name": "huadi"
   },
   "bin": {
-    "ddvcms": "./bin/ddvcms"
+    "ddvcms": "./bin/ddv-cms",
+    "ddv-cms": "./bin/ddv-cms"
   },
   "scripts": {
     "dev": "npm run build:componentscreate && cooking watch -c ./build/cooking.conf.js",
