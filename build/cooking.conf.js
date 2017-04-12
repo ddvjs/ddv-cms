@@ -1,11 +1,13 @@
 // 引入 cooking 依赖
 require('./components.create.js')
+const CssEntryPlugin = require("css-entry-webpack-plugin");
+
 var cooking = require('cooking')
 var components = require('../src/components.json')
 var entry = Object.assign({}, {
   index: './src/index.js',
   each: './src/each.js',
-  'xxxxx': './scss/admin/core.scss'
+  'styles': ['./scss/admin/components.scss']
 }, components)
 setTimeout(function () {
   entry.iii = entry.index
@@ -24,7 +26,7 @@ cooking.set({
   clean: false,
   format: 'umd',
   extractCSS: '[name]/style.css',
-  extends: ['vue2', 'lint'],
+  extends: ['vue2', 'buble', 'lint', 'sass'],
   externals: { vue: {
     root: 'Vue',
     commonjs: 'vue',
@@ -40,3 +42,12 @@ cooking.add('vue.preserveWhitespace', false)
 
 // 生成 webpack 配置并导出
 module.exports = cooking.resolve()
+console.log('module.exports',JSON.stringify(module.exports,'',2))
+console.log('module.exports.plugins',module.exports.plugins[2])
+console.log('module.module.extends.plugins',module.exports.plugins)
+module.exports.plugins.push(new CssEntryPlugin({
+      output: {
+        filename: "[name].bundle.css"
+      }
+    }))
+console.log('module.exports',module.exports)
