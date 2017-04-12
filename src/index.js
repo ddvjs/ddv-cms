@@ -21,7 +21,7 @@ components.install = function VueUseInstall (Vue, opts) {
 }
 // 撮合必要数据
 Object.assign(components, {
-  version: '1.2.5'
+  version: '1.2.3'
 })
 // 直接require引入
 module.exports = Object.create(components)

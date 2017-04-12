@@ -1,11 +1,11 @@
 const webpack = require('webpack')
 const config = require('./webpack.base.js')
-const logger = require('../util/logger')
+const logger = require('./logger')
+const componentsLists = require('./components.lists.js')
 let compiler, isDev
 isDev = process.argv.indexOf('build') === -1
 logger.log('Loading...')
 logger.log('isDev : ' + (isDev ? 'true' : 'false'))
-console.log(444)
 // production
 compiler = webpack(config)
 // Hack: remove extract-text-webpack-plugin log
@@ -15,6 +15,10 @@ const cleanStats = function (stats) {
   )
 }
 if (isDev) {
+  compiler.plugin('done', stats => {
+    cleanStats(stats)
+    console.log('完成')
+  })
   compiler.watch({}, (err, stats) => {
     if (err) {
       return logger.error(err)
