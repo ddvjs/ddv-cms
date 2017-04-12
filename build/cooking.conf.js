@@ -4,8 +4,15 @@ var cooking = require('cooking')
 var components = require('../src/components.json')
 var entry = Object.assign({}, {
   index: './src/index.js',
-  each: './src/each.js'
+  each: './src/each.js',
+  'xxxxx': './scss/admin/core.scss'
 }, components)
+setTimeout(function () {
+  entry.iii = entry.index
+}, 2000)
+setTimeout(function () {
+  entry.iii3 = entry.index
+}, 5000)
 
 // 调用 set 方法传入自定义配置
 cooking.set({
