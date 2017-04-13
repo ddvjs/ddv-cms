@@ -6,15 +6,13 @@
 }*/
 
 * {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 html {
-  font-family: "微软雅黑";
+  font-family: "\5FAE\8F6F\96C5\9ED1";
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
 }
@@ -51,13 +49,13 @@ textarea{
 select{
   outline: none;
   -webkit-appearance:none;
-  appearance:none;
+  -moz-appearance:none;
+       appearance:none;
   border:none;
   display:block;
   width:100%;
   background: transparent;
   direction: rtl;
-  -webkit-box-sizing:border-box;
   box-sizing:border-box;
 }
 a, button, input[type="text"], textarea {
@@ -509,3 +507,5 @@ button {
 :-ms-input-placeholder {
   color: #999;
 }
+
+/*# sourceMappingURL=base.css.map*/

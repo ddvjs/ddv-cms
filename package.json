@@ -7,16 +7,15 @@
     "ddv-cms": "./bin/ddv-cms"
   },
   "scripts": {
-    "dev": "npm run build:componentscreate && cooking watch -c ./build/cooking.conf.js",
-    "build:cooking": "cooking build -c ./build/cooking.conf.js",
-    "build:componentscreate": "node ./build/components.create.js componentscreate",
-    "build": "npm run lint && npm run clear && npm run build:componentscreate && npm run build:cooking",
-    "dist": "npm run build",
+    "dev": "node ./build/webpack.run.js dev",
+    "build": "node ./build/webpack.run.js build",
+    "dist": "npm run lint && npm run clear && npm run build",
     "clear:build": "rm -rf ./lib",
     "clear": "npm run clear:build",
     "lint": "eslint packages src server bin build",
     "precommit": "npm run dist",
-    "prepublish": "npm run dist"
+    "prepublish": "npm run dist",
+    "test": "npm run lint"
   },
   "bugs": {
     "url": "https://github.com/ddvjs/ddv-cms/issues",
@@ -39,24 +38,30 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.1",
-    "babel-preset-es2015": "^6.24.1",
-    "cooking": "^1.5.0",
-    "cooking-lint": "^0.1.4",
-    "cooking-vue": "^0.5.2",
-    "cooking-vue2": "^0.3.1",
+    "buble-loader": "^0.4.1",
+    "css-entry-webpack-plugin": "^1.0.0-beta.4",
     "css-loader": "^0.24.0",
+    "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.0",
+    "eslint-loader": "^1.7.1",
     "eslint-plugin-html": "^2.0.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.9.0",
     "html-loader": "^0.4.5",
+    "json-loader": "^0.5.4",
+    "node-sass": "^4.5.2",
+    "postcss-bem": "^0.4.1",
+    "postcss-cssnext": "^2.10.0",
     "postcss-loader": "^1.3.3",
+    "sass-loader": "^6.0.3",
+    "scss-loader": "0.0.1",
     "style-loader": "^0.13.2",
+    "url-loader": "^0.5.8",
     "vue-loader": "^11.3.4",
+    "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   },
   "description": "ddv-cms让你直接使用cms后台布局，省去后台布局时间",
@@ -91,5 +96,5 @@
     "type": "git",
     "url": "git+https://github.com/ddvjs/ddv-cms.git"
   },
-  "version": "0.0.10"
+  "version": "0.0.11"
 }
