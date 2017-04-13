@@ -1,3 +1,5 @@
+'use strict'
+
 var components = require('./components')
 var each = require('./each')
 // 让每个模块支持安装

@@ -1,3 +1,5 @@
+'use strict'
+
 const path = require('path')
 const dirRoot = path.resolve(__dirname, '../')
 const CssEntryPlugin = require('css-entry-webpack-plugin')
