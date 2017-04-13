@@ -1,8 +1,13 @@
 var fs = require('fs')
 module.exports = {
+  isFunction,
   isString,
   isNumber,
   isArray,
+  isGlobal,
+  isWindow,
+  isPlainObject,
+  isEmptyObject,
   middlelineToUpperCase,
   writeTextFile
 }
@@ -30,4 +35,41 @@ function isNumber (obj) {
 }
 function isString (str) {
   return typeof str === typeof ''
+}
+function isFunction (fn) {
+  return typeof fn === 'function'
+}
+
+// 判断是否一个标准的global
+function isGlobal (obj) {
+  return obj !== void 0 && obj === obj.global
+}
+// 判断是否一个标准的global
+function isWindow (obj) {
+  return obj !== void 0 && obj === obj.window
+}
+
+function isPlainObject (obj) {
+  // Not plain objects:
+  // - Any object or value whose internal [[Class]] property is not "[object Object]"
+  // - DOM nodes
+  // - window
+  if ((typeof obj !== 'object') || obj.nodeType || isGlobal(obj) || isWindow(obj)) {
+    return false
+  }
+
+  if (obj.constructor && !Object.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
+    return false
+  }
+
+  // If the function hasn't returned already, we're confident that
+  // |obj| is a plain object, created by {} or constructed with new Object
+  return true
+}
+function isEmptyObject (obj) {
+  var name
+  for (name in obj) {
+    return false
+  }
+  return true
 }

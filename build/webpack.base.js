@@ -2,18 +2,6 @@ const path = require('path')
 const dirRoot = path.resolve(__dirname, '../')
 const CssEntryPlugin = require('css-entry-webpack-plugin')
 const webpack = require('webpack')
-const entryComponents = {
-  'admin-breadcrumb': './packages/admin-breadcrumb',
-  'admin-header': './packages/admin-header',
-  'admin-sidebar': './packages/admin-sidebar'
-}
-const entryStyle = {
-  'admin/base': ['./style/admin/base.css'],
-  'admin/colors': ['./style/admin/colors.css'],
-  'admin/components': ['./style/admin/components.scss'],
-  'admin/core': ['./style/admin/core.scss'],
-  'wap/base': ['./style/wap/base.scss']
-}
 module.exports = {
   entry: {
     'index': './src/index.js',
@@ -149,4 +137,3 @@ module.exports = {
     })
   ]
 }
-Object.assign(module.exports.entry, entryStyle, entryComponents)
