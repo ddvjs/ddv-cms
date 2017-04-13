@@ -14,7 +14,8 @@
     "clear": "npm run clear:build",
     "lint": "eslint packages src server bin build",
     "precommit": "npm run dist",
-    "prepublish": "npm run dist"
+    "prepublish": "npm run dist",
+    "test": "npm run lint"
   },
   "bugs": {
     "url": "https://github.com/ddvjs/ddv-cms/issues",
@@ -95,5 +96,5 @@
     "type": "git",
     "url": "git+https://github.com/ddvjs/ddv-cms.git"
   },
-  "version": "0.0.10"
+  "version": "0.0.11"
 }
