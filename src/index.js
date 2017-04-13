@@ -4,6 +4,9 @@ var components = require('./components')
 var each = require('./each')
 // 让每个模块支持安装
 each(components, function (component, key) {
+  if (typeof component !== 'object') {
+    return
+  }
   component.install = typeof component.install === 'function' ? component.install : function VueUseInstall (Vue) {
     component.name = component.name || key
     Vue.component(component.name, component)

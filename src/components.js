@@ -4,7 +4,7 @@
 import adminBreadcrumb from '../components/admin-breadcrumb'
 import adminHeader from '../components/admin-header'
 import adminSidebar from '../components/admin-sidebar'
-const version = '0.0.11'
+const version = '0.0.13'
 
 export {
   version,
