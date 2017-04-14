@@ -3,6 +3,7 @@
 const path = require('path')
 const dirRoot = path.resolve(__dirname, '../')
 const CssEntryPlugin = require('css-entry-webpack-plugin')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const webpack = require('webpack')
 module.exports = {
   entry: {
@@ -122,6 +123,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new ProgressBarPlugin(),
     new CssEntryPlugin({
       output: {
         filename: '../css/[name].css'
