@@ -1,19 +1,14 @@
-const fs = require('fs')
-const path = require('path')
+'use strict'
+
 const chokidar = require('chokidar')
 const app = require('express')()
 const worker = require('ddv-worker')
 const http = require('http')
 const Nuxt = require('nuxt')
-const siteRootPath = path.resolve('.', './')
 var config = null
 var nuxt = null
-// 尝试获取配置文件地址
-var siteConfigFile = path.resolve(siteRootPath, 'site.config.js')
-if (!fs.existsSync(siteConfigFile)) {
-  // 再次参数获取
-  siteConfigFile = path.resolve(siteRootPath, 'nuxt.config.js')
-}
+var siteConfigFile = null
+
 // 创建http服务
 worker.server = http.createServer(app)
 
@@ -44,32 +39,37 @@ function createNuxtRender () {
     process.exit(1)
   })
 }
-chokidar.watch(siteConfigFile, { ignoreInitial: true })
-.on('all', function () {
-  console.log('You have modified the configuration information and are recompiling')
-  // 重新创建编译器
-  createNuxtRender()
-})
-// 创建编译器
-createNuxtRender().then(() => {
-  if (config.dev) {
-    // 使用nuxt插件
-    app.use(function (res, req, next) {
-      return nuxt.render.apply(this, arguments)
-    })
-  } else {
-    // 使用nuxt插件
-    app.use(nuxt.render)
-  }
-  // 监听服务 - Listen the server
-  worker.updateServerConf({
-    defaultListen: config.defaultListen,
-    listen: config.listen,
-    cpuLen: config.cpuLen
-  }).then(() => {
-    console.log('监听配置参数 更新成功')
-  }, e => {
-    console.error('监听配置参数 更新失败')
-    console.error(e)
+module.exports = worker
+worker.serverStart = function serverStart (siteConfigFileInput, configInput) {
+  siteConfigFile = siteConfigFileInput
+  config = configInput
+  chokidar.watch(siteConfigFile, { ignoreInitial: true })
+  .on('all', function () {
+    console.log('You have modified the configuration information and are recompiling')
+    // 重新创建编译器
+    createNuxtRender()
   })
-})
+  // 创建编译器
+  createNuxtRender().then(() => {
+    if (config.dev) {
+      // 使用nuxt插件
+      app.use(function (res, req, next) {
+        return nuxt.render.apply(this, arguments)
+      })
+    } else {
+      // 使用nuxt插件
+      app.use(nuxt.render)
+    }
+    // 监听服务 - Listen the server
+    worker.updateServerConf({
+      defaultListen: config.defaultListen,
+      listen: config.listen,
+      cpuLen: config.cpuLen
+    }).then(() => {
+      console.log('监听配置参数 更新成功')
+    }, e => {
+      console.error('监听配置参数 更新失败')
+      console.error(e)
+    })
+  })
+}
