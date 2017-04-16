@@ -4,6 +4,7 @@ const path = require('path')
 const dirRoot = path.resolve(__dirname, '../')
 const CssEntryPlugin = require('css-entry-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const vueLoaderConfig = require('./vue-loader.conf')
 const webpack = require('webpack')
 module.exports = {
   entry: {
@@ -98,7 +99,8 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        loaders: 'vue-loader'
+        loaders: 'vue-loader',
+        options: vueLoaderConfig
       },
       {
         test: /\.scss$/,

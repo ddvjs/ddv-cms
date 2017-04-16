@@ -29,6 +29,7 @@ const cleanStats = function (stats) {
     !/extract-text-webpack-plugin|html-webpack-plugin/.test(child.name)
   )
 }
+process.env.NODE_ENV = isDev ? 'development' : 'production'
 if (isDev) {
   componentsLists.watchComponentsPath(componentsPath, function (res) {
     componentsListsSave(res).then(() => watchChangeDev())
