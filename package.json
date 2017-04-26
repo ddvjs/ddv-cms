@@ -7,12 +7,8 @@
     "ddv-cms": "./bin/ddv-cms"
   },
   "scripts": {
-    "dev": "node ./build/webpack.run.js dev",
-    "build": "node ./build/webpack.run.js build",
-    "dist": "npm run lint && npm run clear && npm run build",
-    "clear:build": "rm -rf ./lib",
-    "clear": "npm run clear:build",
-    "lint": "eslint packages src server bin build",
+    "dist": "npm run lint",
+    "lint": "eslint server bin",
     "precommit": "npm run dist",
     "prepublish": "npm run dist",
     "test": "npm run lint"
@@ -22,18 +18,17 @@
     "email": "ddv@chengjiabao.cn"
   },
   "dependencies": {
-    "cross-spawn": "~5.1.0",
     "chokidar": "~1.6.1",
+    "cross-spawn": "~5.1.0",
     "ddv-restful-api": "~0.0.16",
     "ddv-restful-ws-api": "~0.0.5",
+    "ddv-ui": "~0.0.1",
     "ddv-upload-api": "~0.0.6",
     "ddv-util": "~0.0.10",
     "ddv-worker": "~0.0.14",
-    "element-ui": "^1.2",
-    "mint-ui": "^2.1",
-    "express": "~4.14.0",
     "es5-shim": "^4.5.9",
     "es6-shim": "^0.35.3",
+    "express": "~4.14.0",
     "nuxt": "~0.10"
   },
   "devDependencies": {
@@ -84,7 +79,7 @@
     "ddv"
   ],
   "license": "MIT",
-  "main": "./lib/index",
+  "main": "./server",
   "maintainers": [
     {
       "name": "yuchonghua",
