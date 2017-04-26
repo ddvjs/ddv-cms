@@ -21,7 +21,7 @@
     "chokidar": "~1.6.1",
     "cross-spawn": "~5.1.0",
     "ddv-restful-api": "~0.0.16",
-    "ddv-restful-ws-api": "~0.0.5",
+    "ddv-restful-ws-api": "~0.0.6",
     "ddv-ui": "~0.0.1",
     "ddv-upload-api": "~0.0.6",
     "ddv-util": "~0.0.10",
