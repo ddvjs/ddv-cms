@@ -24,7 +24,7 @@
     "ddv-ui": "~0.0.3",
     "ddv-upload-api": "~0.0.8",
     "ddv-util": "~0.0.10",
-    "ddv-worker": "~0.0.27",
+    "ddv-worker": "~0.0.28",
     "es5-shim": "^4.5.9",
     "es6-shim": "^0.35.3",
     "express": "~4.15.3",
