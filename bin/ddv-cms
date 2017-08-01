@@ -2,113 +2,52 @@
 'use strict'
 // 标题
 process.title = 'ddvCmsBin'
-const defaultCommand = 'dev'
-const fs = require('fs')
-const path = require('path')
-const rootDir = path.resolve('.', './')
-const without = require('lodash').without
-const Nuxt = require('nuxt')
+const argv = require('../lib/argv')
+const logger = require('../lib/logger')
+const config = require('../lib/config')
+const { Nuxt, Builder, Generator } = require('../')
 
-// --analyze option
-var analyzeBuild = false
-if (process.argv.indexOf('--analyze') !== -1 || process.argv.indexOf('-a') !== -1) {
-  analyzeBuild = true
-  process.argv = without(process.argv, '--analyze', '-a')
-}
-
-var siteConfigFileName = 'site.config.js'
-
-// --config-file option
-var indexOfConfig = false
-if (process.argv.indexOf('--config-file') !== -1) {
-  indexOfConfig = process.argv.indexOf('--config-file')
-} else if (process.argv.indexOf('-c') !== -1) {
-  indexOfConfig = process.argv.indexOf('-c')
-}
-
-if (indexOfConfig !== false) {
-  siteConfigFileName = process.argv.slice(indexOfConfig)[1]
-  process.argv = without(process.argv, '--config-file', '-c', siteConfigFileName)
-}
-
-// 尝试获取配置文件地址
-var siteConfigFile = path.resolve(rootDir, siteConfigFileName)
-if (!fs.existsSync(siteConfigFile) && siteConfigFileName !== 'site.config.js') {
-  siteConfigFileName = 'site.config.js'
-  // 再次参数获取
-  siteConfigFile = path.resolve(rootDir, siteConfigFileName)
-}
-if (!fs.existsSync(siteConfigFile) && siteConfigFileName !== 'nuxt.config.js') {
-  // 再次参数获取
-  siteConfigFile = path.resolve(rootDir, 'nuxt.config.js')
-}
-
-var options = {}
-if (fs.existsSync(siteConfigFile)) {
-  options = require(siteConfigFile)
-} else {
-  console.log(`Could not locate ${siteConfigFile}`) // eslint-disable-line no-console
-}// 引入配置信息-Import and Set Nuxt.js options
-
-if (typeof options.rootDir !== 'string') {
-  options.rootDir = rootDir
-}
-options.dev = false // Create production build when calling `nuxt build`
-
-options.build = options.build || {}
-if (analyzeBuild) {
-  options.build.analyze = analyzeBuild
-}
-
-const commands = new Set([
-  'start',
-  'ddvstart',
-  'dev',
-  'ddvdev',
-  'build',
-  'generate'
-])
-var cmd = process.argv[2]
-if (commands.has(cmd)) {
-  process.argv.splice(2, 1)
-} else {
-  cmd = defaultCommand
-}
-var nuxt
-if (cmd === 'build' || cmd === 'generate' || cmd === 'start' || cmd === 'ddvstart') {
-  process.env.NODE_ENV = 'production' // development
-  options.dev = false // Create production build when calling `nuxt build`
-} else {
-  options.dev = true
-}
-// 编译模式
-if (cmd === 'build') {
-  console.log('[nuxt] Building...') // eslint-disable-line no-console
-  nuxt = new Nuxt(options)
-  nuxt.build()
-  .then(() => {
-    console.log('[nuxt] Building done') // eslint-disable-line no-console
+config(argv.configFile, argv)
+  .then(options => {
+    logger.log(`cmd ${argv.cmd}`)
+    logger.log(`port ${argv.port}`)
+    logger.log(`analyze ${argv.analyze}`)
+    logger.log(`rootDir ${argv.rootDir}`)
+    logger.log(`configFile ${argv.configFile}`)
+    logger.log(argv)
+    // 编译模式
+    if (argv.cmd === 'build') {
+      logger.log('[nuxt] Building...') // eslint-disable-line no-console
+      const nuxt = new Nuxt(options)
+      const builder = new Builder(nuxt)
+      builder.build()
+        .then(() => {
+          logger.log('[nuxt] Building done') // eslint-disable-line no-console
+        })
+        .catch((err) => {
+          logger.error(err) // eslint-disable-line no-console
+          process.exit(1)
+        })
+      // 生成模式
+    } else if (argv.cmd === 'generate') {
+      logger.log('[nuxt] Generating...') // eslint-disable-line no-console
+      const nuxt = new Nuxt(options)
+      const builder = new Builder(nuxt)
+      const generator = new Generator(nuxt, builder)
+      generator.generate()
+      nuxt.generate()
+        .then(() => {
+          logger.log('[nuxt] Generate done') // eslint-disable-line no-console
+        })
+        .catch((err) => {
+          logger.error(err) // eslint-disable-line no-console
+          process.exit(1)
+        })
+    } else if (argv.cmd === 'start' || argv.cmd === 'ddvstart' || argv.cmd === 'dev' || argv.cmd === 'ddvdev') {
+      let server = require('../server')
+      server.serverStart(config)
+    } else {
+      logger.error('This parameter is not supported')
+      process.exit(1)
+    }
   })
-  .catch((err) => {
-    console.error(err) // eslint-disable-line no-console
-    process.exit(1)
-  })
-// 生成模式
-} else if (cmd === 'generate') {
-  console.log('[nuxt] Generating...') // eslint-disable-line no-console
-  nuxt = new Nuxt(options)
-  nuxt.generate()
-  .then(() => {
-    console.log('[nuxt] Generate done') // eslint-disable-line no-console
-  })
-  .catch((err) => {
-    console.error(err) // eslint-disable-line no-console
-    process.exit(1)
-  })
-} else if (cmd === 'start' || cmd === 'ddvstart' || cmd === 'dev' || cmd === 'ddvdev') {
-  let server = require('../server')
-  server.serverStart(siteConfigFile, options)
-} else {
-  console.error('This parameter is not supported')
-  process.exit(1)
-}
