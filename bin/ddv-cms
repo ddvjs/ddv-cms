@@ -14,7 +14,6 @@ config(argv.configFile, argv)
     logger.log(`analyze ${argv.analyze}`)
     logger.log(`rootDir ${argv.rootDir}`)
     logger.log(`configFile ${argv.configFile}`)
-    logger.log(argv)
     // 编译模式
     if (argv.cmd === 'build') {
       logger.log('[nuxt] Building...') // eslint-disable-line no-console

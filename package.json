@@ -75,7 +75,7 @@
     "ddv"
   ],
   "license": "MIT",
-  "main": "./server",
+  "main": "./server.js",
   "maintainers": [
     {
       "name": "yuchonghua",
