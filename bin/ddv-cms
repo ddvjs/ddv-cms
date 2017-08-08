@@ -5,7 +5,7 @@ process.title = 'ddvCmsBin'
 const argv = require('../lib/argv')
 const logger = require('../lib/logger')
 const config = require('../lib/config')
-const { Nuxt, Builder, Generator } = require('../')
+const { Nuxt, Builder, Generator } = require('nuxt')
 
 config(argv.configFile, argv)
   .then(options => {
