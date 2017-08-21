@@ -44,3 +44,4 @@ jspm_packages
 .git
 
 src/components.js
+package-lock.json
