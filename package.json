@@ -25,7 +25,7 @@
     "es5-shim": "^4.5.9",
     "es6-shim": "^0.35.3",
     "express": "~4.15.4",
-    "nuxt": "1.0.0-rc5"
+    "nuxt": "1.0.0-rc6"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
