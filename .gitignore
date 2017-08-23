@@ -45,3 +45,5 @@ jspm_packages
 
 src/components.js
 package-lock.json
+
+yarn.lock
