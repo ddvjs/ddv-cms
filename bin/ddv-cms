@@ -42,6 +42,9 @@ config(argv.configFile, argv)
           logger.error(err) // eslint-disable-line no-console
           process.exit(1)
         })
+    } else if (argv.cmd === 'vhost') {
+      let vhost = require('../vhost')
+      vhost.serverStart(config)
     } else if (argv.cmd === 'start' || argv.cmd === 'ddvstart' || argv.cmd === 'dev' || argv.cmd === 'ddvdev') {
       let server = require('../server')
       server.serverStart(config)
