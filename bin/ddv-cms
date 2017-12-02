@@ -11,6 +11,7 @@ config(argv.configFile, argv)
   .then(options => {
     logger.log(`cmd ${argv.cmd}`)
     logger.log(`port ${argv.port}`)
+    logger.log(`isDev ${argv.dev}`)
     logger.log(`analyze ${argv.analyze}`)
     logger.log(`rootDir ${argv.rootDir}`)
     logger.log(`configFile ${argv.configFile}`)
