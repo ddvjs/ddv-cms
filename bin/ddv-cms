@@ -47,8 +47,7 @@ config(argv.configFile, argv)
       let vhost = require('../vhost')
       vhost.serverStart(config)
     } else if (argv.cmd === 'vueutil') {
-      let postinstall = require('../vueutil')
-      postinstall()
+      require('../vueutil')(config)
     } else if (argv.cmd === 'start' || argv.cmd === 'ddvstart' || argv.cmd === 'dev' || argv.cmd === 'ddvdev') {
       let server = require('../server')
       server.serverStart(config)
