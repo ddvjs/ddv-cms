@@ -46,6 +46,8 @@ config(argv.configFile, argv)
     } else if (argv.cmd === 'vhost') {
       let vhost = require('../vhost')
       vhost.serverStart(config)
+    } else if (argv.cmd === 'vueutil') {
+      require('../vueutil')(config)
     } else if (argv.cmd === 'start' || argv.cmd === 'ddvstart' || argv.cmd === 'dev' || argv.cmd === 'ddvdev') {
       let server = require('../server')
       server.serverStart(config)
