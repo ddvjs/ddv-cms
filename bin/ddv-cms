@@ -1,13 +1,75 @@
 #!/usr/bin/env node
+
 'use strict'
 // 标题
 process.title = 'ddvCmsBin'
 const argv = require('../lib/argv')
 const logger = require('../lib/logger')
 const config = require('../lib/config')
-const { Nuxt, Builder, Generator } = require('nuxt')
+const getOptions = require('../lib/getOptions')
+const {
+  Nuxt,
+  Builder,
+  Generator
+} = require('nuxt')
+const path = require('path')
+const fs = require('fs')
 
 config(argv.configFile, argv)
+  .then(options => {
+    if (!options.rootTemplateDir || argv.cmd !== 'build') return Promise.resolve([])
+
+    return new Promise((resolve, reject) => {
+      if (typeof argv.template === 'string') {
+        if (argv.template === '--all') {
+          var templateLists = []
+          // 获取全部模板数据
+          fs.readdir(options.rootTemplateDir, (err, files) => {
+            if (err) {
+              logger.error(err)
+              reject(err)
+            } else {
+              files.forEach(file => {
+                var filedir = path.resolve(options.rootTemplateDir, file)
+                if (fs.statSync(filedir).isDirectory()) {
+                  templateLists.push(file)
+                }
+              })
+              resolve(templateLists)
+            }
+          })
+        } else {
+          resolve([argv.template])
+        }
+      } else if (argv.template === true && Array.isArray(argv['--'])) {
+        resolve(argv['--'].map(t => t))
+      } else if (Array.isArray(argv.template)) {
+        resolve(argv.template.map(t => t))
+      } else {
+        resolve([])
+      }
+    })
+      .then(templateLists => {
+        if (templateLists.length) {
+          logger.log(`configuration template with '${templateLists.join(',')}'`)
+          console.log()
+          // 暂时只取第一个
+          var templatPath = path.resolve(options.rootTemplateDir, templateLists[0])
+          var configTemplatPath = path.resolve(templatPath, 'nuxt.config.js')
+          return getOptions(configTemplatPath)
+            .then(templateOptions => {
+              var rootDir = path.resolve('.')
+              options.buildTemplateDir = options.buildTemplateDir || path.resolve(rootDir, '.nuxt-dists')
+
+              templateOptions.buildDir = path.resolve(options.buildTemplateDir, templateLists[0])
+              templateOptions.rootDir = options.rootDir || rootDir
+              templateOptions.srcDir = templateOptions.srcDir ? path.resolve(templatPath, templateOptions.srcDir) : templatPath
+              return templateOptions
+            })
+        }
+        return options
+      })
+  })
   .then(options => {
     logger.log(`cmd ${argv.cmd}`)
     logger.log(`port ${argv.port}`)
