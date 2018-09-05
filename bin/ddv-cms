@@ -52,9 +52,16 @@ config(argv.configFile, argv)
         })
       })
       .then(templateLists => {
+        logger.log(`cmd ${argv.cmd}`)
+        logger.log(`port ${argv.port}`)
+        logger.log(`isDev ${argv.dev}`)
+        logger.log(`analyze ${argv.analyze}`)
+        logger.log(`rootDir ${argv.rootDir}`)
+        logger.log(`configFile ${argv.configFile}`)
+
         if (templateLists.length) {
-          logger.log(`configuration template with '${templateLists.join(',')}'`)
           console.log()
+          logger.log(`configuration template with '${templateLists.join(',')}'`)
           var promiseLists = []
           // 暂时只取第一个
           templateLists.forEach(itemName => {
@@ -87,12 +94,6 @@ config(argv.configFile, argv)
   })
 
 function handleCmd (options, argv) {
-  logger.log(`cmd ${argv.cmd}`)
-  logger.log(`port ${argv.port}`)
-  logger.log(`isDev ${argv.dev}`)
-  logger.log(`analyze ${argv.analyze}`)
-  logger.log(`rootDir ${argv.rootDir}`)
-  logger.log(`configFile ${argv.configFile}`)
   // 编译模式
   if (argv.cmd === 'build') {
     logger.log('[nuxt] Building...') // eslint-disable-line no-console
