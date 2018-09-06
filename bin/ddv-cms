@@ -7,13 +7,10 @@ const argv = require('../lib/argv')
 const logger = require('../lib/logger')
 const config = require('../lib/config')
 const getOptions = require('../lib/getOptions')
-const {
-  Nuxt,
-  Builder,
-  Generator
-} = require('nuxt')
+const { Nuxt, Builder, Generator } = require('nuxt')
 const path = require('path')
 const fs = require('fs')
+const getLog = require('../utils/get-log')
 
 config(argv.configFile, argv)
   .then(options => {
@@ -73,11 +70,17 @@ config(argv.configFile, argv)
                   var rootDir = path.resolve('.')
                   options.buildTemplateDir = options.buildTemplateDir || path.resolve(rootDir, '.nuxt-dists')
 
-                  templateOptions.buildDir = path.resolve(options.buildTemplateDir, itemName + '-buildDate-' + (new Date()).getTime())
                   templateOptions.rootDir = options.rootDir || rootDir
                   templateOptions.srcDir = templateOptions.srcDir ? path.resolve(templatPath, templateOptions.srcDir) : templatPath
-                  templatPath = configTemplatPath = rootDir = void 0
-                  return templateOptions
+                  return getLog(templateOptions.srcDir)
+                    .then(subVersion => {
+                      if (subVersion) {
+                        subVersion = '--subVersion--' + subVersion
+                      }
+                      templateOptions.buildDir = path.resolve(options.buildTemplateDir, itemName + subVersion)
+                      templatPath = configTemplatPath = rootDir = void 0
+                      return templateOptions
+                    })
                 })
             }
             promiseLists.push(getOpts())
