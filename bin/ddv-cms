@@ -11,6 +11,8 @@ const { Nuxt, Builder, Generator } = require('nuxt')
 const path = require('path')
 const fs = require('fs')
 const getLog = require('../utils/get-log')
+const CacheTemp = require('../utils/cache-temp')
+const cacheTemp = new CacheTemp()
 
 config(argv.configFile, argv)
   .then(options => {
@@ -60,6 +62,7 @@ config(argv.configFile, argv)
           console.log()
           logger.log(`configuration template with '${templateLists.join(',')}'`)
           var promiseLists = []
+          cacheTemp.add(templateLists, true)
           // 暂时只取第一个
           templateLists.forEach(itemName => {
             var getOpts = () => {
