@@ -1,58 +1,140 @@
 #!/usr/bin/env node
+
 'use strict'
 // 标题
 process.title = 'ddvCmsBin'
 const argv = require('../lib/argv')
 const logger = require('../lib/logger')
 const config = require('../lib/config')
+const getOptions = require('../lib/getOptions')
 const { Nuxt, Builder, Generator } = require('nuxt')
+const path = require('path')
+const fs = require('fs')
+const getLog = require('../utils/get-log')
 
 config(argv.configFile, argv)
   .then(options => {
-    logger.log(`cmd ${argv.cmd}`)
-    logger.log(`port ${argv.port}`)
-    logger.log(`isDev ${argv.dev}`)
-    logger.log(`analyze ${argv.analyze}`)
-    logger.log(`rootDir ${argv.rootDir}`)
-    logger.log(`configFile ${argv.configFile}`)
-    // 编译模式
-    if (argv.cmd === 'build') {
-      logger.log('[nuxt] Building...') // eslint-disable-line no-console
-      const nuxt = new Nuxt(options)
-      const builder = new Builder(nuxt)
-      builder.build()
-        .then(() => {
-          logger.log('[nuxt] Building done') // eslint-disable-line no-console
+    return Promise.resolve()
+      .then(() => {
+        if (!options.rootTemplateDir || argv.cmd !== 'build') return Promise.resolve([])
+        return new Promise((resolve, reject) => {
+          if (typeof argv.template === 'string') {
+            if (argv.template === '--all') {
+              var templateLists = []
+              // 获取全部模板数据
+              fs.readdir(options.rootTemplateDir, (err, files) => {
+                if (err) {
+                  logger.error(err)
+                  reject(err)
+                } else {
+                  files.forEach(file => {
+                    var filedir = path.resolve(options.rootTemplateDir, file)
+                    if (fs.statSync(filedir).isDirectory()) {
+                      templateLists.push(file)
+                    }
+                  })
+                  resolve(templateLists)
+                }
+              })
+            } else {
+              resolve([argv.template])
+            }
+          } else if (argv.template === true && Array.isArray(argv['--'])) {
+            resolve(argv['--'].map(t => t))
+          } else if (Array.isArray(argv.template)) {
+            resolve(argv.template.map(t => t))
+          } else {
+            resolve([])
+          }
         })
-        .catch((err) => {
-          logger.error(err) // eslint-disable-line no-console
-          process.exit(1)
-        })
-      // 生成模式
-    } else if (argv.cmd === 'generate') {
-      logger.log('[nuxt] Generating...') // eslint-disable-line no-console
-      const nuxt = new Nuxt(options)
-      const builder = new Builder(nuxt)
-      const generator = new Generator(nuxt, builder)
-      generator.generate()
-      nuxt.generate()
-        .then(() => {
-          logger.log('[nuxt] Generate done') // eslint-disable-line no-console
-        })
-        .catch((err) => {
-          logger.error(err) // eslint-disable-line no-console
-          process.exit(1)
-        })
-    } else if (argv.cmd === 'vhost') {
-      let vhost = require('../vhost')
-      vhost.serverStart(config)
-    } else if (argv.cmd === 'vueutil') {
-      require('../vueutil')(config)
-    } else if (argv.cmd === 'start' || argv.cmd === 'ddvstart' || argv.cmd === 'dev' || argv.cmd === 'ddvdev') {
-      let server = require('../server')
-      server.serverStart(config)
-    } else {
-      logger.error('This parameter is not supported')
-      process.exit(1)
-    }
+      })
+      .then(templateLists => {
+        logger.log(`cmd ${argv.cmd}`)
+        logger.log(`port ${argv.port}`)
+        logger.log(`isDev ${argv.dev}`)
+        logger.log(`analyze ${argv.analyze}`)
+        logger.log(`rootDir ${argv.rootDir}`)
+        logger.log(`configFile ${argv.configFile}`)
+
+        if (templateLists.length) {
+          console.log()
+          logger.log(`configuration template with '${templateLists.join(',')}'`)
+          var promiseLists = []
+
+          templateLists.forEach(itemName => {
+            var getOpts = () => {
+              var templatPath = path.resolve(options.rootTemplateDir, itemName)
+              var configTemplatPath = path.resolve(templatPath, 'nuxt.config.js')
+              return getOptions(configTemplatPath)
+                .then(templateOptions => {
+                  var rootDir = path.resolve('.')
+                  options.buildTemplateDir = options.buildTemplateDir || path.resolve(rootDir, '.nuxt-dists')
+
+                  templateOptions.rootDir = options.rootDir || rootDir
+                  templateOptions.srcDir = templateOptions.srcDir ? path.resolve(templatPath, templateOptions.srcDir) : templatPath
+                  return getLog(templateOptions.srcDir)
+                    .then(subVersion => {
+                      if (subVersion) {
+                        subVersion = '--subVersion--' + subVersion
+                      }
+                      templateOptions.buildDir = path.resolve(options.buildTemplateDir, itemName + subVersion)
+                      templatPath = configTemplatPath = rootDir = void 0
+                      return templateOptions
+                    })
+                })
+            }
+            promiseLists.push(getOpts())
+          })
+          return Promise.all(promiseLists)
+            .then(optsLists => {
+              optsLists.forEach(item => {
+                handleCmd(item, argv)
+              })
+            })
+        }
+        handleCmd(options, argv)
+      })
   })
+
+function handleCmd (options, argv) {
+  // 编译模式
+  if (argv.cmd === 'build') {
+    logger.log('[nuxt] Building...') // eslint-disable-line no-console
+    const nuxt = new Nuxt(options)
+    const builder = new Builder(nuxt)
+    builder.build()
+      .then(() => {
+        logger.log('[nuxt] Building done') // eslint-disable-line no-console
+      })
+      .catch((err) => {
+        logger.error(err) // eslint-disable-line no-console
+        process.exit(1)
+      })
+    // 生成模式
+  } else if (argv.cmd === 'generate') {
+    logger.log('[nuxt] Generating...') // eslint-disable-line no-console
+    const nuxt = new Nuxt(options)
+    const builder = new Builder(nuxt)
+    const generator = new Generator(nuxt, builder)
+    generator.generate()
+    nuxt.generate()
+      .then(() => {
+        logger.log('[nuxt] Generate done') // eslint-disable-line no-console
+      })
+      .catch((err) => {
+        logger.error(err) // eslint-disable-line no-console
+        process.exit(1)
+      })
+  } else if (argv.cmd === 'vhost') {
+    let vhost = require('../vhost')
+    vhost.serverStart(config)
+  } else if (argv.cmd === 'vueutil') {
+    require('../vueutil')(config)
+  } else if (argv.cmd === 'start' || argv.cmd === 'ddvstart' || argv.cmd === 'dev' || argv.cmd === 'ddvdev') {
+    let server = require('../server')
+    server.serverStart(config)
+  } else {
+    logger.error('This parameter is not supported')
+    process.exit(1)
+  }
+}
