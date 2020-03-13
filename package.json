@@ -26,6 +26,7 @@
     "chalk": "~2.3.0",
     "chokidar": "~1.7.0",
     "cookie-parser": "^1.4.3",
+    "core-js": "3",
     "ddv-worker": "~0.0.29",
     "es5-shim": "^4.5.10",
     "es6-shim": "^0.35.3",
