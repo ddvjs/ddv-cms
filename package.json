@@ -13,7 +13,6 @@
   },
   "scripts": {
     "dist": "npm run lint",
-    "lint": "eslint lib server bin",
     "precommit": "npm run dist",
     "prepublish": "npm run dist",
     "test": "npm run lint"
