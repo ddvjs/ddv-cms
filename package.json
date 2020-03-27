@@ -32,7 +32,7 @@
     "es6-shim": "^0.35.3",
     "express": "~4.15.4",
     "minimist": "~1.2.0",
-    "nuxt": "~2.12.1"
+    "nuxt": "^2.12"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
